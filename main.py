@@ -102,11 +102,13 @@ class Paint(object):
         ps = self.c.postscript(colormode='color')
         img = Img.open(io.BytesIO(ps.encode('utf-8')))
         img = np.array(img)
-        final = np.zeros(img.shape)
-        N, M, C = final.shape
+
         if self.run_dream:
+            final = np.zeros((self.WIDTH,self.HEIGHT,3))
+            N, M, C = final.shape
             drm = dream.run(self.saved_img,['mixed3','mixed5'],100,0.01)
             drm = np.array(drm)
+           #drm = cv2.resize(drm,final.shape)
             for i in range(N):
                 for j in range(M):
                     if self.is_color(img[i,j],True):
@@ -116,6 +118,8 @@ class Paint(object):
                     else:
                         final[i,j] = img[i,j]
         else:
+            final = np.zeros((self.WIDTH,self.HEIGHT,3))
+            N, M, C = final.shape
             for i in range(N):
                 for j in range(M):
                     if self.is_color(img[i, j],False):
