@@ -128,6 +128,7 @@ class Paint(object):
                         final[i, j] = img[i, j]
 
         final = ImageTk.PhotoImage(Img.fromarray(final.astype(np.uint8)))
+        self.c.delete('all')
         self.c.create_image(0, 0, anchor=NW, image=final)
         self.c.img = final
 
